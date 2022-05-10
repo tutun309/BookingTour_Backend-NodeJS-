@@ -6,8 +6,8 @@ import db from '../models/index';
 let createNewUser = async (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            console.log('>>>>>>>>>>test:', data.vaitroId);
-            console.log('>>>>>>>>>>test:', data.email);
+            // console.log('>>>>>>>>>>test:', data.vaitroId);
+            // console.log('>>>>>>>>>>test:', data.email);
             let checkEmail = await checkEmailUser(data.email);
             if (!data.email || !data.password) {
                 resolve({
@@ -70,6 +70,7 @@ let checkEmailUser = (emailUser) => {
         }
     })
 }
+
 let handleLoginUser = (email, pass) => {
     return new Promise(async (resolve, reject) => {
         try {

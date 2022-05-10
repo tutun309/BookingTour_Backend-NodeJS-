@@ -81,6 +81,8 @@ let handleUpdateNewUser = async (req, res) => {
     })
 }
 
+
+
 export default {
     handleLogin,
     handleGetAllUsers,
