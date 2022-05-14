@@ -25,6 +25,9 @@ const initWebRoute = (app) => {
     // ------------category---------
     router.post('/api/category/create-new-category', categoryController.handleCreateCategory)
     router.get('/api/category/get-all-category', categoryController.handleGetAllCategory)
+    router.delete('/api/category/delete-category/:id', categoryController.handleDeleteCategoryById)
+    router.post('/api/category/update-category', categoryController.handleUpdateCategory)
+    router.get('/api/category/get-category/:id', categoryController.handleGetCategoryById)
 
     return app.use("/", router);
 }
