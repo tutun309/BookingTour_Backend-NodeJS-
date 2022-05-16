@@ -44,10 +44,12 @@ let handleGetCategoryById = async (req, res) => {
     let data = await categoryService.getCategoryById(id);
     return res.status(200).json(data);
 }
+
 export default {
     handleCreateCategory,
     handleGetAllCategory,
     handleDeleteCategoryById,
     handleUpdateCategory,
-    handleGetCategoryById
+    handleGetCategoryById,
+
 }
