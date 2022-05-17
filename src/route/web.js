@@ -2,6 +2,7 @@ import express from "express";
 import userController from '../controllers/userController'
 import categoryController from '../controllers/categoryController'
 import tourController from '../controllers/tourController'
+import bookingController from '../controllers/bookingController'
 let router = express.Router();
 
 const initWebRoute = (app) => {
@@ -23,6 +24,10 @@ const initWebRoute = (app) => {
     router.post('/api/tour/update-tour', tourController.handleUpdateTour);
     router.get('/api/tour/get-tour-by-id/:id', tourController.handleGetTourById);
     router.delete('/api/tour/delete-tour/:id', tourController.handleDeleteTourById);
+
+    //----------------booking-------------
+    router.post('/api/booking/create-new-booking', bookingController.handleCreateBooking);
+    router.get('/api/booking/get-all-booking', bookingController.handleGetAllBooking);
 
     return app.use("/", router);
 }

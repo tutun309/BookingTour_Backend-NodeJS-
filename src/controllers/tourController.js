@@ -1,5 +1,3 @@
-import req from 'express/lib/request';
-import connectDb from '../config/connectDB'
 import tourService from '../services/tourService'
 
 let handleCreateTour = async (req, res) => {
