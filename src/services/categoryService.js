@@ -77,9 +77,7 @@ let updateCategory = async (categoryInp) => {
 
 let deleteCategoryByid = (idInp) => {
     return new Promise(async (resolve, reject) => {
-        console.log('>>>>>>check:', idInp);
         try {
-            console.log(">>>>>>>>>>>>>check:", idInp);
             let category = await db.Category.findOne({
                 where: { id: idInp }
             })

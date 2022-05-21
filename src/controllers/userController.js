@@ -1,4 +1,3 @@
-import connectDb from '../config/connectDB'
 import userService from '../services/userService'
 let handleLogin = async (req, res) => {
     let email = req.body.email;
@@ -34,9 +33,6 @@ let handleCreateNewUser = async (req, res) => {
 }
 
 let handleDeleteUser = async (req, res) => {
-    // let data = await userService.createNewUser(req.body);
-    // console.log(data);
-
     if (!req.body.id) {
         return res.status(200).json({
             errCode: 3,
@@ -44,26 +40,37 @@ let handleDeleteUser = async (req, res) => {
         })
     }
     let data = await userService.deleteUser(req.body.id);
-    // console.log('>>>>>>>>>>>>>>check: ', data)
     return res.status(200).json({
         errCode: data.errCode,
         mess: data.mess
     })
 }
 
-let handleUpdateNewUser = async (req, res) => {
-    if (!req.body.id) {
-        return res.status(200).json({
-            errCode: 3,
-            mess: 'chua truyen id',
-        })
-    }
+let handleUpdateUser = async (req, res) => {
+    console.log('>>>>>>>>>>check', req.body.id);
     let data = await userService.updateUser(req.body);
     return res.status(200).json({
-        errCode: data.errCode
+        errCode: data.errCode,
+        mess: data.mess
     })
 }
 
+let handleGetUserById = async (req, res) => {
+    let id = req.params.id;
+    if (!id) {
+        return res.status(200).json({
+            errCode: 1,
+            mess: 'chua truyen id',
+        })
+    }
+    let data = await userService.getUserById(id);
+    return res.status(200).json(data);
+}
+
+let handleDeleteUserById = async (req, res) => {
+    let data = await userService.deleteUserByid(req.params.id);
+    return res.status(200).json(data);
+}
 
 
 export default {
@@ -71,5 +78,7 @@ export default {
     handleGetAllUsers,
     handleCreateNewUser,
     handleDeleteUser,
-    handleUpdateNewUser
+    handleUpdateUser,
+    handleGetUserById,
+    handleDeleteUserById
 }

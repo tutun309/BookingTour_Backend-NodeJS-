@@ -1,13 +1,10 @@
 import { reject } from 'bcrypt/promises';
 import db from '../models/index';
-// import bcrypt from 'bcryptjs';
-// const salt = bcrypt.genSaltSync(10);
+
 
 let createNewUser = async (data) => {
     return new Promise(async (resolve, reject) => {
         try {
-            // console.log('>>>>>>>>>>test:', data.vaitroId);
-            // console.log('>>>>>>>>>>test:', data.email);
             let checkEmail = await checkEmailUser(data.email);
             if (!data.email || !data.password) {
                 resolve({
@@ -22,8 +19,6 @@ let createNewUser = async (data) => {
                 });
             }
             else {
-                // let hashPassword = await hashUserPassword(data.password);
-                // console.log('pass::::::::::', hashPassword);
                 await db.User.create({
                     email: data.email,
                     password: data.password,
@@ -86,7 +81,6 @@ let handleLoginUser = (email, pass) => {
                     isPassword = false;
 
                 }
-                // console.log(">>>>>checkpass", isExist.user.img.toString());
                 if (isPassword) {
                     isExist.user.img = isExist.user.img.toString();
                     userData.errCode = 0;
@@ -151,113 +145,88 @@ let getAllUsers = () => {
     })
 }
 
+let updateUser = (userInp) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            await db.User.update({
+                name: userInp.name,
+                address: userInp.address,
+                img: userInp.img,
+                vaitroId: userInp.vaitroId,
+            }, {
+                where: { id: userInp.id }
+            })
+            resolve({
+                errCode: 0,
+                mess: 'ok'
+            });
+        } catch (error) {
+            reject(error)
+        }
+    })
+
+}
+
+let getUserById = async (idInp) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: { id: idInp },
+                attributes: {
+                    exclude: ['password']
+                }
+            })
+            if (!user) {
+                resolve({
+                    errCode: 1,
+                    mess: 'khong ton tai nguoi dung'
+                })
+            }
+            else {
+                user.img = user.img.toString();
+                resolve(user);
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
+let deleteUserByid = (idInp) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: { id: idInp }
+            })
+            if (!user) {
+                resolve({
+                    errCode: 1,
+                    mess: 'khong ton tai danh muc'
+                })
+            }
+            else {
+                await db.User.destroy({
+                    where: { id: idInp }
+                })
+                resolve({
+                    errCode: 0,
+                    mess: 'xóa thành công'
+                })
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
+
 export default {
     handleLoginUser,
     checkEmailUser,
     getAllUsers,
     createNewUser,
-    // deleteUser,
-    // updateUser
+    updateUser,
+    getUserById,
+    deleteUserByid
 }
-
-
-
-// let getAllUsers = (idUser) => {
-//     return new Promise(async (resolve, reject) => {
-//         try {
-//             let users = {};
-//             if (idUser == 'ALL') {
-//                 users = await db.User.findAll({
-//                     attributes: {
-//                         exclude: ['password']
-//                     }
-//                 });
-//             }
-//             if (idUser && idUser != 'ALL') {
-//                 users = await db.User.findOne({
-//                     where: { id: idUser },
-//                     attributes: {
-//                         exclude: ['password']
-//                     }
-//                 })
-//             }
-//             resolve(users);
-//         } catch (error) {
-//             reject(error);
-//         }
-//     })
-// }
-
-
-
-// let hashUserPassword = (password) => {
-//     return new Promise(async (resolve, reject) => {
-//         try {
-//             let hashPassword = await bcrypt.hashSync(password, salt);
-//             resolve(hashPassword);
-//         } catch (error) {
-//             reject(error);
-//         }
-//     })
-// }
-
-// let deleteUser = (idUser) => {
-//     return new Promise(async (resolve, reject) => {
-//         try {
-//             let user = await db.User.findOne({
-//                 where: { id: idUser }
-//             })
-//             if (!user) {
-//                 resolve({
-//                     errCode: 1,
-//                     mess: 'khong ton tai nguoi dung'
-//                 })
-//             }
-//             else {
-//                 await db.User.destroy({
-//                     where: { id: idUser }
-//                 })
-//                 resolve({
-//                     errCode: 0,
-//                     mess: 'xoa thanh cong'
-//                 })
-//             }
-//         } catch (error) {
-//             reject(error)
-//         }
-//     })
-// }
-
-// let updateUser = async (data) => {
-//     return new Promise(async (resolve, reject) => {
-//         try {
-//             let user = await db.User.findOne({
-//                 where: { id: data.id }
-//             })
-//             if (!user) {
-//                 resolve({
-//                     errCode: 1,
-//                     mess: 'khong ton tai nguoi dung'
-//                 })
-//             }
-//             else {
-//                 await db.User.update({
-//                     firstName: data.firstName,
-//                     lastName: data.lastName,
-//                     address: data.address,
-//                 },
-//                     {
-//                         where: { id: data.id }
-//                     })
-//                 resolve({
-//                     errCode: 0,
-//                     mess: 'sua thanh cong'
-//                 })
-//             }
-//         } catch (error) {
-//             reject(error)
-//         }
-//     })
-// }
-
-

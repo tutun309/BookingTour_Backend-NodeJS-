@@ -10,6 +10,10 @@ const initWebRoute = (app) => {
     router.post('/api/user/login', userController.handleLogin);
     router.get('/api/user/get-all-user', userController.handleGetAllUsers);
     router.post('/api/user/create-new-user', userController.handleCreateNewUser);
+    router.post('/api/user/update-user', userController.handleUpdateUser);
+    router.get('/api/user/get-user-by-id/:id', userController.handleGetUserById);
+    router.delete('/api/user/delete-user/:id', userController.handleDeleteUserById);
+
 
     // ------------category---------
     router.post('/api/category/create-new-category', categoryController.handleCreateCategory);
