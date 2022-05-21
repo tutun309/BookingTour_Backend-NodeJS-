@@ -131,10 +131,30 @@ let checkPasswordUser = (user) => {
     })
 }
 
+let getAllUsers = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let users = await db.User.findAll({
+                attributes: {
+                    exclude: ['password']
+                }
+            });
+            if (users) {
+                for (let i = 0; i < users.length; i++) {
+                    users[i].img = users[i].img.toString();
+                }
+                resolve(users);
+            }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
 export default {
     handleLoginUser,
     checkEmailUser,
-    // getAllUsers,
+    getAllUsers,
     createNewUser,
     // deleteUser,
     // updateUser

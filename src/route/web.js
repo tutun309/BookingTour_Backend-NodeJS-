@@ -8,7 +8,7 @@ let router = express.Router();
 const initWebRoute = (app) => {
 
     router.post('/api/user/login', userController.handleLogin);
-    router.get('/api/get-all-user', userController.handleGetAllUsers);
+    router.get('/api/user/get-all-user', userController.handleGetAllUsers);
     router.post('/api/user/create-new-user', userController.handleCreateNewUser);
 
     // ------------category---------
@@ -28,6 +28,9 @@ const initWebRoute = (app) => {
     //----------------booking-------------
     router.post('/api/booking/create-new-booking', bookingController.handleCreateBooking);
     router.get('/api/booking/get-all-booking', bookingController.handleGetAllBooking);
+    router.get('/api/booking/get-booking-by-id/:id', bookingController.handleGetBookingById);
+    router.post('/api/booking/update-status-booking', bookingController.handleUpdateStatusBooking);
+    router.get('/api/booking/get-booking-by-userid/:userId', bookingController.handleGetBookingByUserId);
 
     return app.use("/", router);
 }

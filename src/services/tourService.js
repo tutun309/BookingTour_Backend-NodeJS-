@@ -60,8 +60,6 @@ let updateTour = (tourInp) => {
             let tour = await db.Tour.findOne({
                 where: { id: tourInp.id }
             })
-            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>check:", tour.name);
-            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>check:", tourInp.id);
             if (!tour) {
                 resolve({
                     errCode: 1,
